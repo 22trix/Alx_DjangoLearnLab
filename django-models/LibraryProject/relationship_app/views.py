@@ -65,7 +65,7 @@ def add_book(request):
 
         book = Book(title=title, author_id=author_id, publication_year=publication_year)
         book.save()
-    return redirect('list_books')  
+        return redirect('list_books')
     return render(request, 'relationship_app/add_book.html')
 
 @permission_required('relationship_app.can_change_book', raise_exception=True)
@@ -77,7 +77,7 @@ def edit_book(request, book_id):
         book.author_id = request.POST.get('author')
         book.publication_year = request.POST.get('publication_year')
         book.save()
-    return redirect('list_books')  
+        return redirect('list_books')
     return render(request, 'relationship_app/edit_book.html', {'book': book})
 
 @permission_required('relationship_app.can_delete_book', raise_exception=True)
@@ -86,6 +86,6 @@ def delete_book(request, book_id):
 
     if request.method == 'POST':
         book.delete()
-    return redirect('list_books')  
+        return redirect('list_books')
 
     return render(request, 'relationship_app/delete_book.html', {'book': book})
