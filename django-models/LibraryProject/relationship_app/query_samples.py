@@ -1,42 +1,35 @@
 from relationship_app.models import Author, Book, Library, Librarian
 
-def query_all_books_by_author(author_name):
-    """Query all books by a specific author"""
-    try:
-        author = Author.objects.get(name=author_name)
-        books = Book.objects.filter(author=author)
-        return books
-    except Author.DoesNotExist:
-        return Book.objects.none()
+# 1. Query all books by a specific author
+def books_by_author(author_name):
+    author = Author.objects.get(name=author_name)
+    books = Book.objects.filter(author=author)
+    print(f"Books by {author_name}:")
+    for book in books:
+        print(f"- {book.title}")
 
-def list_all_books_in_library(library_name):
-    """List all books in a library"""
-    try:
-        library = Library.objects.get(name=library_name)
-        books = library.books.all()
-        return books
-    except Library.DoesNotExist:
-        return Book.objects.none()
+# 2. List all books in a library
+def books_in_library(library_name):
+    library = Library.objects.get(name=library_name)
+    books = library.books.all()
+    print(f"Books in the library {library_name}:")
+    for book in books:
+        print(f"- {book.title}")
 
-def get_librarian_for_library(library_name):
-    """Retrieve the librarian for a library"""
-    try:
-        library = Library.objects.get(name=library_name)
-        librarian = Librarian.objects.get(library=library)
-        return librarian
-    except (Library.DoesNotExist, Librarian.DoesNotExist):
-        return None
+# 3. Retrieve the librarian for a library
+def librarian_for_library(library_name):
+    library = Library.objects.get(name=library_name)
+    librarian = Librarian.objects.get(library=library)
+    print(f"The librarian for {library_name} is {librarian.name}")
 
-# Example usage (you can test these functions)
+# Test the queries
 if __name__ == "__main__":
-    # Example: Query books by author
-    books_by_author = query_all_books_by_author("J.K. Rowling")
-    print("Books by author:", list(books_by_author))
+    # Query 1: Books by a specific author (change 'Author Name' to an existing author)
+    books_by_author('Author Name')
+
+    # Query 2: Books in a specific library (change 'Library Name' to an existing library)
+    books_in_library('Library Name')
+
+    # Query 3: Librarian for a specific library (change 'Library Name' to an existing library)
+    librarian_for_library('Library Name')
     
-    # Example: List books in library
-    library_books = list_all_books_in_library("Central Library")
-    print("Books in library:", list(library_books))
-    
-    # Example: Get librarian
-    librarian = get_librarian_for_library("Central Library")
-    print("Librarian:", librarian)
